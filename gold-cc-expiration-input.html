@@ -105,12 +105,13 @@ style this element.
         ],
 
         properties: {
+
           /**
            * The label for this input.
            */
           label: {
             type: String,
-            value: "Expiration Date"
+            value: 'Expiration Date'
           },
 
           value: {
@@ -118,6 +119,7 @@ style this element.
             value: '',
             observer: '_onValueChanged'
           }
+
         },
 
         listeners: {
@@ -130,8 +132,9 @@ style this element.
 
         ready: function() {
           // If there's an initial input, validate it.
-          if (this.value)
+          if (this.value) {
             this._handleAutoValidate();
+          }
         },
 
         /**
@@ -139,8 +142,9 @@ style this element.
          */
         _onValueChanged: function(value, oldValue) {
           // The initial property assignment is handled by `ready`.
-          if (oldValue == undefined)
+          if (oldValue == undefined) {
             return;
+          }
 
           this.$.input.month = this._computeMonth(value);
           this.$.input.year = this._computeYear(value);
