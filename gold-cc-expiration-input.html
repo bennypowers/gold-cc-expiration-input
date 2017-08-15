@@ -66,7 +66,7 @@ style this element.
         disabled$="[[disabled]]"
         invalid="[[invalid]]">
 
-      <label hidden$="[[!label]]">[[label]]</label>
+      <label slot="label" hidden$="[[!label]]">[[label]]</label>
 
       <date-input class="paper-input-input" id="input"
           aria-label-prefix="[[_ariaLabelledBy]]"
@@ -81,7 +81,9 @@ style this element.
       </date-input>
 
       <template is="dom-if" if="[[errorMessage]]">
-        <paper-input-error>[[errorMessage]]</paper-input-error>
+        <paper-input-error slot="add-on" id="error">
+          [[errorMessage]]
+        </paper-input-error>
       </template>
 
     </paper-input-container>
