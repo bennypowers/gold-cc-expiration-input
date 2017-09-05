@@ -123,17 +123,18 @@ style this element.
             type: String,
             value: '',
             observer: '_onValueChanged'
-          }
+          },
+
+          focused: {
+            type: Boolean,
+            observer: '_onFocusedChanged',
+          },
 
         },
 
         listeners: {
           'dateChanged': '_dateChanged'
         },
-
-        observers: [
-          '_onFocusedChanged(focused)'
-        ],
 
         ready: function() {
           // If there's an initial input, validate it.
@@ -184,8 +185,8 @@ style this element.
         /**
          * Overidden from Polymer.IronControlState.
          */
-        _onFocusedChanged: function(focused) {
-          if (!this._focusableElement) {
+        _onFocusedChanged: function(focused, ov) {
+          if (!this._focusableElement || focused === ov || ov === undefined) {
             return;
           }
           if (!focused) {

@@ -150,7 +150,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       test('has aria-labelledby', function() {
         var input = fixture('basic');
-        var dateInput = input.$$('.paper-input-input');
+        var dateInput = input.$.input;
         var month = dateInput.$.nativeMonthInput || dateInput.$.expirationMonth;
         var year = dateInput.$.nativeYearInput || dateInput.$.expirationYear;
         var label = Polymer.dom(input.root).querySelector('label').id;
