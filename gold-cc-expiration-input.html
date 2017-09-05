@@ -69,6 +69,7 @@ style this element.
       <label slot="label" hidden$="[[!label]]">[[label]]</label>
 
       <date-input class="paper-input-input" id="input"
+          slot="input"
           aria-label-prefix="[[_ariaLabelledBy]]"
           required$="[[required]]"
           autocomplete$="[[autocomplete]]"
@@ -80,11 +81,13 @@ style this element.
           readonly$="[[readonly]]">
       </date-input>
 
-      <template is="dom-if" if="[[errorMessage]]">
-        <paper-input-error slot="add-on" id="error">
-          [[errorMessage]]
-        </paper-input-error>
-      </template>
+      <dom-if if="[[errorMessage]]">
+        <template is="dom-if" if="[[errorMessage]]">
+          <paper-input-error slot="add-on" id="error">
+            [[errorMessage]]
+          </paper-input-error>
+        </template>
+      </dom-if>
 
     </paper-input-container>
   </template>
@@ -182,6 +185,9 @@ style this element.
          * Overidden from Polymer.IronControlState.
          */
         _onFocusedChanged: function(focused) {
+          if (!this._focusableElement) {
+            return;
+          }
           if (!focused) {
             this._handleAutoValidate();
           }

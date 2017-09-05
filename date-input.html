@@ -22,11 +22,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>
       span {
-        @apply(--paper-input-container-font);
+        @apply --paper-input-container-font;
         opacity: 0.33;
         text-align: center;
       }
 
+      iron-input input,
       input[is="iron-input"] {
         position: relative; /* to make a stacking context */
         outline: none;
@@ -38,13 +39,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: var(--paper-input-container-input-color, --primary-text-color);
         text-align: center;
 
-        @apply(--layout-flex);
-        @apply(--paper-font-subhead);
-        @apply(--paper-input-container-input);
+        @apply --layout-flex;
+        @apply --paper-font-subhead;
+        @apply --paper-input-container-input;
       }
 
       .container {
-        @apply(--layout-horizontal);
+        @apply --layout-horizontal;
       }
     </style>
 
@@ -55,53 +56,63 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <span id="template-placeholder"></span>
 
-    <template id="v1">
-      <div class="container">
-        <input is="iron-input"
-            id="expirationMonth"
-            aria-labelledby$="[[_computeAriaLabel(ariaLabelPrefix,'monthLabel')]]"
-            required$="[[required]]"
-            maxlength="2"
-            bind-value="{{month}}"
-            placeholder="MM"
-            allowed-pattern="[0-9]"
-            prevent-invalid-input
-            autocomplete="cc-exp-month"
-            type="tel"
-            disabled$="[[disabled]]"
-            invalid="{{invalid}}"
-            autofocus$="[[autofocus]]"
-            inputmode$="[[inputmode]]"
-            readonly$="[[readonly]]">
-        <span>/</span>
-        <input is="iron-input"
-            id="expirationYear"
-            aria-labelledby$="[[_computeAriaLabel(ariaLabelPrefix,'yearLabel')]]"
-            required$="[[required]]"
-            maxlength="2"
-            bind-value="{{year}}"
-            placeholder="YY"
-            allowed-pattern="[0-9]"
-            prevent-invalid-input
-            autocomplete="cc-exp-year"
-            type="tel"
-            disabled$="[[disabled]]"
-            invalid="{{invalid}}"
-            inputmode$="[[inputmode]]"
-            readonly$="[[readonly]]">
-      </div>
-    </template>
+  </template>
 
-    <template id="v2">
+  <template id="v0">
+    <div class="container">
+      <input is="iron-input"
+          id="expirationMonth"
+          aria-labelledby$="[[_computeAriaLabel(ariaLabelPrefix,'monthLabel')]]"
+          required$="[[required]]"
+          on-focus="_onFocus"
+          on-blur="_onBlur"
+          on-input="_onInput"
+          maxlength="2"
+          bind-value="{{month}}"
+          placeholder="MM"
+          allowed-pattern="[0-9]"
+          prevent-invalid-input
+          autocomplete="cc-exp-month"
+          type="tel"
+          disabled$="[[disabled]]"
+          invalid="{{invalid}}"
+          autofocus$="[[autofocus]]"
+          inputmode$="[[inputmode]]"
+          readonly$="[[readonly]]">
+      <span>/</span>
+      <input is="iron-input"
+          id="expirationYear"
+          aria-labelledby$="[[_computeAriaLabel(ariaLabelPrefix,'yearLabel')]]"
+          required$="[[required]]"
+          on-focus="_onFocus"
+          on-blur="_onBlur"
+          on-input="_onInput"
+          maxlength="2"
+          bind-value="{{year}}"
+          placeholder="YY"
+          allowed-pattern="[0-9]"
+          prevent-invalid-input
+          autocomplete="cc-exp-year"
+          type="tel"
+          disabled$="[[disabled]]"
+          invalid="{{invalid}}"
+          inputmode$="[[inputmode]]"
+          readonly$="[[readonly]]">
+    </div>
+  </template>
 
-      <iron-input id="expirationMonth" slot="monthInput"
+  <template id="v1">
+    <div class="container">
+      <iron-input id="expirationMonth"
           bind-value="{{month}}"
           allowed-pattern="[0-9]"
           invalid="{{invalid}}">
-
         <input id="nativeMonthInput"
             aria-labelledby$="[[_computeAriaLabel(ariaLabelPrefix,'monthLabel')]]"
             required$="[[required]]"
+            on-focus="_onFocus"
+            on-blur="_onBlur"
+            on-input="_onInput"
             maxlength="2"
             placeholder="MM"
             autocomplete="cc-exp-month"
@@ -111,17 +122,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             inputmode$="[[inputmode]]"
             readonly$="[[readonly]]">
       </iron-input>
-
       <span>/</span>
-
-      <iron-input id="expirationYear" slot="yearInput"
+      <iron-input id="expirationYear"
           bind-value="{{year}}"
           allowed-pattern="[0-9]"
           invalid="{{invalid}}">
-
         <input id="nativeYearInput"
             aria-labelledby$="[[_computeAriaLabel(ariaLabelPrefix,'yearLabel')]]"
             required$="[[required]]"
+            on-focus="_onFocus"
+            on-blur="_onBlur"
+            on-input="_onInput"
             maxlength="2"
             placeholder="YY"
             autocomplete="cc-exp-year"
@@ -130,8 +141,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             inputmode$="[[inputmode]]"
             readonly$="[[readonly]]">
       </iron-input>
-    </template>
-
+    </div>
   </template>
 
 </dom-module>
@@ -173,7 +183,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       /**
-       * The date object used by the validator. Has two properties, month and year.
+       * The date object used by the validator.
+       * Has two properties, month and year.
        */
       date: {
         notify: true,
@@ -186,7 +197,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       ariaLabelPrefix: {
-        type:String
+        type: String
       },
 
       /**
@@ -231,7 +242,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     beforeRegister: function() {
       var template = Polymer.DomModule.import('date-input', 'template');
-      var version = Polymer.Element ? 'v2' : 'v1';
+      var version = Polymer.Element ? 'v1' : 'v0';
       var inputTemplate = Polymer.DomModule.import('date-input', 'template#' + version);
       var inputPlaceholder = template.content.querySelector('#template-placeholder');
       if (inputPlaceholder) {
@@ -240,7 +251,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _selectYear: function() {
-      this.$.expirationYear.focus();
+      var yearInput = this.$.nativeYearInput || this.$.expirationYear;
+          yearInput.focus();
     },
 
     _computeDate: function(month, year) {
@@ -265,6 +277,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     _computeAriaLabel: function(dateLabel, monthLabel) {
       return dateLabel + ' ' + monthLabel;
-    }
+    },
+
+    _onFocus: function(e) {
+      var container = this.domHost.$.container;
+          container._boundOnFocus(e);
+    },
+
+    _onBlur: function(e) {
+      var container = this.domHost.$.container;
+          container._boundOnBlur(e);
+    },
+
+    _onInput: function(e) {
+      var container = this.domHost.$.container;
+          container._boundOnInput(e);
+    },
   });
 </script>
